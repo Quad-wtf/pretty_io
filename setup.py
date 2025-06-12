@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="pretty-io",
-    version="1.0.0",
+    version="1.0.1",
     author="Quad, Wtf",
     author_email="quad.business.inquirities@gmail.com",
     description="A Python module for pretty terminal input/output with ANSI styling",
