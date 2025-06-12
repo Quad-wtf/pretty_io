@@ -9,6 +9,7 @@ A Python module for beautiful terminal input/output with ANSI styling and colors
 - 🎯 **Pretty Input**: Get user input with styled prompts
 - 🔄 **Combined I/O**: Input with automatic styled responses
 - 🚀 **Easy to Use**: Simple function calls with intuitive parameters
+- 📦 **Print-like Interface**: Works just like Python's built-in `print()` function
 
 ## Installation
 
@@ -29,12 +30,17 @@ pip install pretty-io
 ```python
 from pretty_io import PrintPretty, InputPretty, InputOutputPretty
 
-# Print colorful text
-PrintPretty(Style1="bold", Color1="red", Print="Error: Something went wrong!")
-PrintPretty(Style1="italic", Color1="green", Print="Success: Operation completed!")
+# Print colorful text (just like print!)
+PrintPretty("Error: Something went wrong!", Style1="bold", Color1="red")
+PrintPretty("Success: Operation completed!", Style1="italic", Color1="green")
+
+# Print multiple variables
+name = "John"
+age = 25
+PrintPretty("Hello", name, "you are", age, "years old", Color1="cyan")
 
 # Get styled input
-name = InputPretty(Prompt="Enter your name: ", Style1="bold", Color="cyan")
+user_name = InputPretty(Prompt="Enter your name: ", Style1="bold", Color="cyan")
 
 # Combined input/output
 favorite = InputOutputPretty(
@@ -48,18 +54,31 @@ favorite = InputOutputPretty(
 ## Functions
 
 ### PrintPretty()
-Print text with optional styling and colors.
+Print text with optional styling and colors using ANSI escape codes.
+Works like the standard `print()` function with styling options.
 
 **Parameters:**
+- `*args`: Values to print (like standard print function)
 - `Style1` (str): First style (bold, italic, underline, etc.)
 - `Style2` (str): Second style (can be combined)
 - `Color1` (str): Text color
-- `Color2` (str): Background color
-- `Print` (str): Text to print
+- `sep` (str): Separator between values (default: ' ')
+- `end` (str): String appended after the last value (default: '\n')
 
-**Example:**
+**Examples:**
 ```python
-PrintPretty(Style1="bold", Style2="underline", Color1="red", Print="Important!")
+# Print single value
+PrintPretty("Important message!", Style1="bold", Color1="red")
+
+# Print multiple values (like print())
+PrintPretty("Name:", name, "Age:", age, Color1="blue")
+
+# Custom separator
+PrintPretty("A", "B", "C", sep=" | ", Color1="green")
+
+# No newline at end
+PrintPretty("Loading", end="", Color1="yellow")
+PrintPretty("...", Color1="yellow")
 ```
 
 ### InputPretty()
@@ -128,12 +147,17 @@ result = InputOutputPretty(
 ```python
 from pretty_io import PrintPretty, InputPretty
 
-# Simple colored output
-PrintPretty(Color1="red", Print="This is red text")
-PrintPretty(Style1="bold", Color1="green", Print="Bold green text")
+# Simple colored output (new print-like syntax)
+PrintPretty("This is red text", Color1="red")
+PrintPretty("Bold green text", Style1="bold", Color1="green")
+
+# Print variables
+name = "Alice"
+score = 95
+PrintPretty("Player:", name, "Score:", score, Color1="cyan")
 
 # Get user input with styling
-name = InputPretty(Prompt="Name: ", Color="blue")
+user_name = InputPretty(Prompt="Name: ", Color="blue")
 age = InputPretty(
     Prompt="Age: ", 
     Style1="bold", Color="yellow",
@@ -145,19 +169,21 @@ age = InputPretty(
 ```python
 # Multiple styles combined
 PrintPretty(
+    "Multi-styled text!",
     Style1="bold", 
     Style2="underline", 
-    Color1="bright_cyan", 
-    Print="Multi-styled text!"
+    Color1="bright_cyan"
 )
 
-# Background colors
-PrintPretty(
-    Style1="bold", 
-    Color1="white", 
-    Color2="red", 
-    Print="White text on red background"
-)
+# Print lists and multiple values
+numbers = [1, 2, 3, 4, 5]
+PrintPretty("Numbers:", *numbers, sep=" | ", Color1="magenta")
+
+# Progress indicator
+PrintPretty("Processing", end="", Color1="yellow")
+for i in range(3):
+    PrintPretty(".", end="", Color1="yellow")
+PrintPretty(" Done!", Color1="green", Style1="bold")
 ```
 
 ### Interactive Applications
@@ -165,7 +191,7 @@ PrintPretty(
 from pretty_io import InputOutputPretty, PrintPretty
 
 def interactive_quiz():
-    PrintPretty(Style1="bold", Color1="cyan", Print="=== Quiz Time! ===")
+    PrintPretty("=== Quiz Time! ===", Style1="bold", Color1="cyan")
     
     answer1 = InputOutputPretty(
         Prompt="What's 2+2? ",
@@ -176,25 +202,53 @@ def interactive_quiz():
     )
     
     if answer1 == "4":
-        PrintPretty(Style1="bold", Color1="green", Print="Correct! ✓")
+        PrintPretty("Correct! ✓", Style1="bold", Color1="green")
     else:
-        PrintPretty(Style1="bold", Color1="red", Print="Try again! ✗")
+        PrintPretty("Try again! ✗", Style1="bold", Color1="red")
+
+# Debug output example
+def debug_variables():
+    x = 10
+    y = 20
+    result = x + y
+    
+    PrintPretty("Debug Info:", Style1="bold", Color1="yellow")
+    PrintPretty("x =", x, "y =", y, "result =", result, Color1="cyan")
 
 interactive_quiz()
+debug_variables()
 ```
 
-## Demo
+### Replacing Standard Print
+```python
+# You can easily replace print() with PrintPretty() in existing code
+# Old code:
+# print("Hello", name, "your score is", score)
 
-Run the built-in demo to see all features:
+# New code with styling:
+PrintPretty("Hello", name, "your score is", score, Color1="green", Style1="bold")
+
+# Works with all print() features
+data = ["apple", "banana", "cherry"]
+PrintPretty("Fruits:", *data, sep=", ", end="!\n", Color1="magenta")
+```
+
+## Utility Functions
+
+### PrintPossibilities()
+Display all available styles and colors:
 
 ```python
-from pretty_io import _demo
-_demo()
-```
+from pretty_io import PrintPossibilities
 
-Or run the module directly:
-```bash
-python -m pretty_io
+# Show all options
+PrintPossibilities()
+
+# Show just colors
+PrintPossibilities.colors()
+
+# Show just styles  
+PrintPossibilities.styles()
 ```
 
 ## Requirements
@@ -216,9 +270,12 @@ MIT License - see LICENSE file for details.
 
 ## Changelog
 
-### v1.0.0
-- Initial release
-- Basic PrintPretty function
+### v1.0.1
+- **NEW**: PrintPretty now works like built-in `print()` function
+- **NEW**: Accepts multiple positional arguments like `print()`
+- **NEW**: Supports `sep` and `end` parameters
+- **REMOVED**: `Color2` parameter for simplicity
+- **REMOVED**: Complex variable printing features
 - InputPretty with user input styling
 - InputOutputPretty for combined I/O
 - Full ANSI color and style support
