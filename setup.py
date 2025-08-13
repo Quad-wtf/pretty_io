@@ -3,24 +3,26 @@ try:
         from setuptools import setup, find_packages
     except ImportError:
         import os
-        install = input("setuptools is not installed. Do you want to install it? (y/n) ")
-        if install.lower() == 'y':
+
+        install = input(
+            "setuptools is not installed. Do you want to install it? (y/n) "
+        )
+        if install.lower() == "y":
             print("Installing setuptools...")
             os.system("pip install setuptools")
             os.system("pip cache purge")
             os.system("cls" if os.name == "nt" else "clear")
-        if install.lower() == 'n':
+        if install.lower() == "n":
             print("Abort.")
             exit(1)
         if not install:
             print("Abort.")
             exit(1)
 
-
     with open("README.md", "r", encoding="utf-8") as fh:
         long_description = fh.read()
 
-    setup( # pyright: ignore[reportPossiblyUnboundVariable]
+    setup(  # pyright: ignore[reportPossiblyUnboundVariable]
         name="pretty-io",
         version="1.0.1",
         author="Quad, Wtf",
@@ -29,7 +31,7 @@ try:
         long_description=long_description,
         long_description_content_type="text/markdown",
         url="https://github.com/Quad-wtf/pretty-io",
-        packages=find_packages(), # pyright: ignore[reportPossiblyUnboundVariable]
+        packages=find_packages(),  # pyright: ignore[reportPossiblyUnboundVariable]
         classifiers=[
             "Development Status :: 4 - Beta",
             "Intended Audience :: Developers",
@@ -56,12 +58,12 @@ try:
 except Exception as e:
     import os
     import sys
-    
+
     def pause():
         try:
             # Windows
-            if os.name == 'nt':
-                os.system('pause')
+            if os.name == "nt":
+                os.system("pause")
             # Linux / macOS
             else:
                 input("Press Enter to continue...")
